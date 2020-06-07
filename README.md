@@ -1,8 +1,8 @@
 # Data Engineering Nanodegree
 
-Projects and resources developed in the [DEND Nanodegree](https://www.udacity.com/course/data-engineer-nanodegree--nd027) from Udacity.
+Projects and resources developed in the [DEND Nanodegree](https://github.com/brijeshgoharia/Data-Engineering) from Udacity.
 
-## Project 1: [Relational Databases - Data Modeling with PostgreSQL](https://github.com/nareshk1290/Udacity-Data-Engineering/tree/master/Data-Modeling/Project%201).
+## Project 1: [Relational Databases - Data Modeling with PostgreSQL](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project1-POSTGRESQL).
 Developed a relational database using PostgreSQL to model user activity data for a music streaming app. Skills include:
 * Created a relational database using PostgreSQL
 * Developed a Star Schema database using optimized definitions of Fact and Dimension tables. Normalization of tables.

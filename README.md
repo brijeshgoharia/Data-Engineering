@@ -11,7 +11,7 @@ Developed a relational database using PostgreSQL to model user activity data for
 Proficiencies include: Python, PostgreSql, Star Schema, ETL pipelines, Normalization
 
 
-## Project 2: [NoSQL Databases - Data Modeling with Apache Cassandra](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project2-CASSANDRA.).
+## Project 2: [NoSQL Databases - Data Modeling with Apache Cassandra](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project2-CASSANDRA).
 Designed a NoSQL database using Apache Cassandra based on the original schema outlined in project one. Skills include:
 * Created a nosql database using Apache Cassandra (both locally and with docker containers)
 * Developed denormalized tables optimized for a specific set queries and business needs
@@ -27,7 +27,7 @@ Created a database warehouse utilizing Amazon Redshift. Skills include:
 
 Proficiencies used: Python, Amazon Redshift, aws cli, Amazon SDK, SQL, PostgreSQL
 
-## Project 4: [Data Lake - Spark](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/ Project4-Data_Lake)
+## Project 4: [Data Lake - Spark](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project4-Data_Lake)
 Scaled up the current ETL pipeline by moving the data warehouse to a data lake. Skills include:
 * Create an EMR Hadoop Cluster
 * Further develop the ETL Pipeline copying datasets from S3 buckets, data processing using Spark and writing to S3 buckets using efficient partitioning and parquet formatting.

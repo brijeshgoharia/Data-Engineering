@@ -44,7 +44,7 @@ artist_table_create = ("""
 """)
 
 time_table_create = ("""
-    CREATE TABLE IF NOT EXISTS time (  start_time timestamp, \
+    CREATE TABLE IF NOT EXISTS time (  start_time timestamp PRIMARY KEY, \
                                         hour int NULL, \
                                         day int NULL, \
                                         week int NULL, \
@@ -104,7 +104,8 @@ time_table_insert = ("""
                         month, \
                         year,
                         weekday)
-    VALUES (%s, %s, %s, %s, %s, %s, %s);
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+     ON CONFLICT (start_time) DO NOTHING;
 """)
 
 # FIND SONGS

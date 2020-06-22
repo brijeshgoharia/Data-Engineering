@@ -67,14 +67,14 @@ songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS fact_songplay
 (
 songplay_id          INTEGER IDENTITY(0,1) PRIMARY KEY sortkey,
-start_time           TIMESTAMP,
-user_id              INTEGER,
-level                VARCHAR,
-song_id              VARCHAR,
-artist_id            VARCHAR,
-session_id           INTEGER,
-location             VARCHAR,
-user_agent           VARCHAR
+start_time           TIMESTAMP NOT NULL,
+user_id              INTEGER NOT NULL,
+level                VARCHAR NOT NULL,
+song_id              VARCHAR NOT NULL,
+artist_id            VARCHAR NOT NULL,
+session_id           INTEGER NOT NULL,
+location             VARCHAR NOT NULL,
+user_agent           VARCHAR NOT NULL
 );
 """)
 
@@ -82,10 +82,10 @@ user_table_create = ("""
 CREATE TABLE IF NOT EXISTS dim_user
 (
 user_id INTEGER PRIMARY KEY distkey,
-first_name      VARCHAR,
-last_name       VARCHAR,
+first_name      VARCHAR NOT NULL,
+last_name       VARCHAR NOT NULL ,
 gender          VARCHAR,
-level           VARCHAR
+level           VARCHAR NOT NULL
 );
 """)
 
@@ -93,10 +93,10 @@ song_table_create = ("""
 CREATE TABLE IF NOT EXISTS dim_song
 (
 song_id     VARCHAR PRIMARY KEY,
-title       VARCHAR,
-artist_id   VARCHAR distkey,
-year        INTEGER,
-duration    FLOAT
+title       VARCHAR NOT NULL,
+artist_id   VARCHAR NOT NULL distkey ,
+year        INTEGER NOT NULL,
+duration    FLOAT NOT NULL
 );
 """)
 
@@ -104,10 +104,10 @@ artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS dim_artist
 (
 artist_id          VARCHAR PRIMARY KEY distkey,
-name               VARCHAR,
-location           VARCHAR,
-latitude           FLOAT,
-longitude          FLOAT
+name               VARCHAR NOT NULL,
+location           VARCHAR NOT NULL,
+latitude           FLOAT NOT NULL,
+longitude          FLOAT NOT NULL
 );
 """)
 
@@ -115,12 +115,12 @@ time_table_create = ("""
 CREATE TABLE IF NOT EXISTS dim_time
 (
 start_time    TIMESTAMP PRIMARY KEY sortkey distkey,
-hour          INTEGER,
-day           INTEGER,
-week          INTEGER,
-month         INTEGER,
-year          INTEGER,
-weekday       INTEGER
+hour          INTEGER NOT NULL,
+day           INTEGER NOT NULL,
+week          INTEGER NOT NULL,
+month         INTEGER NOT NULL,
+year          INTEGER NOT NULL,
+weekday       INTEGER NOT NULL
 );
 """)
 
@@ -155,8 +155,22 @@ SELECT DISTINCT to_timestamp(to_char(se.ts, '9999-99-99 99:99:99'),'YYYY-MM-DD H
                 se.sessionId as session_id,
                 se.location as location,
                 se.userAgent as user_agent
-FROM staging_events se
-JOIN staging_songs ss ON se.song = ss.title AND se.artist = ss.artist_name;
+#FROM staging_events se
+#JOIN staging_songs ss ON se.song = ss.title AND se.artist = ss.artist_name;
+
+FROM
+        staging_events se, staging_songs ss
+    WHERE 
+        se.page = 'NextSong' AND 
+        se.song = ss.title AND 
+        se.userId NOT IN (
+            SELECT DISTINCT 
+                s2.user_id 
+            FROM 
+                songplays s2 
+            WHERE 
+                s2.user_id = e.userId AND  
+                s2.session_id = e.sessionId
 """)
 
 user_table_insert = ("""
@@ -166,8 +180,11 @@ SELECT DISTINCT userId as user_id,
                 lastName as last_name,
                 gender as gender,
                 level as level
-FROM staging_events
-where userId IS NOT NULL;
+    FROM
+        staging_events
+    WHERE
+        page = 'NextSong' AND
+        user_id NOT IN (SELECT DISTINCT user_id FROM users)
 """)
 
 song_table_insert = ("""
@@ -193,17 +210,37 @@ where artist_id IS NOT NULL;
 """)
 
 time_table_insert = ("""
-INSERT INTO dim_time(start_time, hour, day, week, month, year, weekday)
-SELECT distinct ts,
-                EXTRACT(hour from ts),
-                EXTRACT(day from ts),
-                EXTRACT(week from ts),
-                EXTRACT(month from ts),
-                EXTRACT(year from ts),
-                EXTRACT(weekday from ts)
-FROM staging_events
-WHERE ts IS NOT NULL;
+    INSERT INTO time (start_time, hour, day, week, month, year, weekday)
+    SELECT
+        ts AS start_time,
+        EXTRACT(hr      FROM ts) AS hour,
+        EXTRACT(d       FROM ts) AS day,
+        EXTRACT(w       FROM ts) AS week,
+        EXTRACT(mon     FROM ts) AS month,
+        EXTRACT(yr      FROM ts) AS year, 
+        EXTRACT(weekday FROM ts) AS weekday
+    FROM (
+        SELECT DISTINCT  TIMESTAMP 'epoch' + ts/1000 *INTERVAL '1 second' as ts 
+        FROM staging_events s     
+    )
+    WHERE 
+        start_time NOT IN (SELECT DISTINCT start_time FROM time)
 """)
+
+analytical_queries = [
+    'SELECT COUNT(*) AS total FROM artists',
+    'SELECT COUNT(*) AS total FROM songs',
+    'SELECT COUNT(*) AS total FROM time',
+    'SELECT COUNT(*) AS total FROM users',
+    'SELECT COUNT(*) AS total FROM songplays'
+]
+analytical_query_titles = [
+    'Artists table count',
+    'Songs table count',
+    'Time table count',
+    'Users table count',
+    'Song plays table count'
+]
 
 # QUERY LISTS
 

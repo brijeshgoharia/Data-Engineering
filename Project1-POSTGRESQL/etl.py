@@ -4,7 +4,6 @@ import psycopg2
 import pandas as pd
 from sql_queries import *
 
-
 def process_song_file(cur, filepath):
     # open song file
     df = pd.DataFrame(pd.read_json(filepath,
@@ -25,7 +24,6 @@ def process_song_file(cur, filepath):
                    df.values[0][1],
                    df.values[0][3])
     cur.execute(artist_table_insert, artist_data)
-
 
 # print(df_orig)
 def process_log_file(cur, filepath):
@@ -100,7 +98,6 @@ def process_log_file(cur, filepath):
 
         cur.execute(songplay_table_insert, songplay_data)
 
-
 def process_data(cur, conn, filepath, func):
     # get all files matching extension from directory
     all_files = []
@@ -119,7 +116,6 @@ def process_data(cur, conn, filepath, func):
         conn.commit()
         print('{}/{} files processed.'.format(i, num_files))
 
-
 def main():
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
@@ -129,6 +125,6 @@ def main():
 
     conn.close()
 
-
+    
 if __name__ == "__main__":
     main()

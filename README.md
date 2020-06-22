@@ -11,7 +11,7 @@ Developed a relational database using PostgreSQL to model user activity data for
 Proficiencies include: Python, PostgreSql, Star Schema, ETL pipelines, Normalization
 
 
-## Project 2: [NoSQL Databases - Data Modeling with Apache Cassandra](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project1-POSTGRESQL)).
+## Project 2: [NoSQL Databases - Data Modeling with Apache Cassandra](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project2-CASSANDRA.).
 Designed a NoSQL database using Apache Cassandra based on the original schema outlined in project one. Skills include:
 * Created a nosql database using Apache Cassandra (both locally and with docker containers)
 * Developed denormalized tables optimized for a specific set queries and business needs
@@ -19,7 +19,7 @@ Designed a NoSQL database using Apache Cassandra based on the original schema ou
 Proficiencies used: Python, Apache Cassandra, Denormalization
 
 
-## Project 3: [Data Warehouse - Amazon Redshift](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project1-POSTGRESQL)).
+## Project 3: [Data Warehouse - Amazon Redshift](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project3-DATAWAREHOUSE_REDSHIFT).
 Created a database warehouse utilizing Amazon Redshift. Skills include:
 * Creating a Redshift Cluster, IAM Roles, Security groups.
 * Develop an ETL Pipeline that copies data from S3 buckets into staging tables to be processed into a star schema
@@ -27,7 +27,7 @@ Created a database warehouse utilizing Amazon Redshift. Skills include:
 
 Proficiencies used: Python, Amazon Redshift, aws cli, Amazon SDK, SQL, PostgreSQL
 
-## Project 4: [Data Lake - Spark](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project1-POSTGRESQL))
+## Project 4: [Data Lake - Spark](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/ Project4-Data_Lake)
 Scaled up the current ETL pipeline by moving the data warehouse to a data lake. Skills include:
 * Create an EMR Hadoop Cluster
 * Further develop the ETL Pipeline copying datasets from S3 buckets, data processing using Spark and writing to S3 buckets using efficient partitioning and parquet formatting.
@@ -35,10 +35,14 @@ Scaled up the current ETL pipeline by moving the data warehouse to a data lake. 
 
 Technologies used: Spark, S3, EMR, Athena, Amazon Glue, Parquet.
 
-## Project 5: [Data Pipelines - Airflow](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project1-POSTGRESQL))
+## Project 5: [Data Pipelines - Airflow](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Project5-DATA_AIRFLOW)
 Automate the ETL pipeline and creation of data warehouse using Apache Airflow. Skills include:
 * Using Airflow to automate ETL pipelines using Airflow, Python, Amazon Redshift.
 * Writing custom operators to perform tasks such as staging data, filling the data warehouse, and validation through data quality checks.
 * Transforming data from various sources into a star schema optimized for the analytics team's use cases.
 
 Technologies used: Apache Airflow, S3, Amazon Redshift, Python.
+
+## Project 6: [Capstone](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Capstone)
+* The purpose of this project is to process Covid-19 data in an attempt to analyze & visualize the data to derive statistical information & study patterns in Covid cases in the USA & worldwide.
+

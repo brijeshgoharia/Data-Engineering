@@ -3,6 +3,18 @@
 ## **Project: Capstone**
 The purpose of this project is to process Covid-19 data in an attempt to analyze & visualize the data to derive statistical information & study patterns in Covid cases in the USA & worldwide.
 
+### **Kibana Visualization/Dashboard** ###
+![](Data_table.png)
+***
+![](Dashboard.png)
+***
+![](deaths_by_county.png)
+***
+![](deaths_by_date.png)
+***
+![](confirmedcase_by_county.png)
+***
+![](confirmedcase_by_date.png)
 ### **Data**
 ***
 The data is obtained from two distinct sources.

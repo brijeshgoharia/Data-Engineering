@@ -1,4 +1,6 @@
 # Data Engineering Nanodegree
+## Certificate of completion
+![](Certificate.png)
 
 Projects and resources developed in the [DEND Nanodegree](https://github.com/brijeshgoharia/Data-Engineering) from Udacity.
 
@@ -45,4 +47,5 @@ Technologies used: Apache Airflow, S3, Amazon Redshift, Python.
 
 ## Project 6: [Capstone](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Capstone)
 * The purpose of this project is to process Covid-19 data in an attempt to analyze & visualize the data to derive statistical information & study patterns in Covid cases in the USA & worldwide.
+
 

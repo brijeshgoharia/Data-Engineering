@@ -45,7 +45,7 @@ Automate the ETL pipeline and creation of data warehouse using Apache Airflow. S
 
 Technologies used: Apache Airflow, S3, Amazon Redshift, Python.
 
-## Project 6: [Capstone](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Capstone)
+## Project 6: [Capstone: COVID19 Data Pipeline and Visualization](https://github.com/brijeshgoharia/Data-Engineering/tree/dev/Capstone)
 * The purpose of this project is to process Covid-19 data in an attempt to analyze & visualize the data to derive statistical information & study patterns in Covid cases in the USA & worldwide.
 
-
+Technologies used: Rest API, Amazon Elasticsearch service and Kibana, Python, Pandas.

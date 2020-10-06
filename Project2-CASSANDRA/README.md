@@ -1,48 +1,92 @@
-<b>Project: Data Modeling with Cassandra</b>
+## <b>Project: Data Lake with Redshift</b>
 
-<b>Introduction:</b>
-    
-A startup called Sparkify wants to analyze the data they've been collecting on songs and user activity on their new music streaming app. There is no easy way to query the data to generate the results, since the data reside in a directory of CSV files on user activity on the app. My role is to create an Apache Cassandra database which can create queries on song play data to answer the questions.
+### <b>Introduction</b>
 
-<b>Project Overview:</b>
+A music streaming startup, Sparkify, has grown their user base and song database and want to move their processes and data onto the cloud. Their data resides in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app.
 
-In this project, I would be applying Data Modeling with Apache Cassandra and complete an ETL pipeline using Python. I am provided with part of the ETL pipeline that transfers data from a set of CSV files within a directory to create a streamlined CSV file to model and insert data into Apache Cassandra tables.
+### <b>Project Description</b>
 
-<b>Datasets:</b>
+As the usecase involves massive datasets, having a relational database that is categorically designed for processing large datasets efficiently through Massive Parallel Processing would best fit our needs. 
+Also, since the data resides in AWS S3, we need a Database that offers seamless integration with AWS resources. Which is why deploying a Redshift cluster would be apt for the given usecase. 
+Redhsift's COPY protocol can be leveraged to transfer data S3 data into Redshift's staging tables, as seen in the diagram below. Since, the COPY protocol is intelligent enough to identify part files, each part file will be processes parallely. Thereby, making the data transfer process very efficient.
+A star schema can then be created to establish optimal data modeling and querying.
 
-For this project, you'll be working with one dataset: event_data. The directory of CSV files partitioned by date. Here are examples of filepaths to two files in the dataset:
-event_data/2018-11-08-events.csv
-event_data/2018-11-09-events.csv
+### <b>Project Datasets</b>
 
-<b>Project Template:</b>
+Song Data Path     -->     s3://udacity-dend/song_data
+Log Data Path      -->     s3://udacity-dend/log_data
+Log Data JSON Path -->     s3://udacity-dend/log_json_path.json
 
-The project template includes one Jupyter Notebook file, in which:
-•	you will process the event_datafile_new.csv dataset to create a denormalized dataset
-•	you will model the data tables keeping in mind the queries you need to run
-•	you have been provided queries that you will need to model your data tables for
-•	you will load the data into tables you create in Apache Cassandra and run your queries
+### <b>Song Dataset</b>
 
-<b>Project Steps:</b>
+The first dataset is a subset of real data from the Million Song Dataset(https://labrosa.ee.columbia.edu/millionsong/). Each file is in JSON format and contains metadata about a song and the artist of that song. The files are partitioned by the first three letters of each song's track ID. 
+For example:
 
-Below are steps you can follow to complete each component of this project.
+song_data/A/B/C/TRABCEI128F424C983.json
+song_data/A/A/B/TRAABJL12903CDCF1A.json
 
-<b>Modelling your NoSQL Database or Apache Cassandra Database:</b>
-    
-1.	Design tables to answer the queries outlined in the project template
-2.	Write Apache Cassandra CREATE KEYSPACE and SET KEYSPACE statements
-3.	Develop your CREATE statement for each of the tables to address each question
-4.	Load the data with INSERT statement for each of the tables
-5.	Include IF NOT EXISTS clauses in your CREATE statements to create tables only if the tables do not already exist. We recommend you also include DROP TABLE statement for each table, this way you can run drop and create tables whenever you want to reset your database and test your ETL pipeline
-6.	Test by running the proper select statements with the correct WHERE clause
+And below is an example of what a single song file, TRAABJL12903CDCF1A.json, looks like.
 
-<b>Build ETL Pipeline:</b>
-1.	Implement the logic in section Part I of the notebook template to iterate through each event file in event_data to process and create a new CSV file in Python
-2.	Make necessary edits to Part II of the notebook template to include Apache Cassandra CREATE and INSERT three statements to load processed records into relevant tables in your data model
-3.	Test by running three SELECT statements after running the queries on your database
-4.	Finally, drop the tables and shutdown the cluster
+{"num_songs": 1, "artist_id": "ARJIE2Y1187B994AB7", "artist_latitude": null, "artist_longitude": null, "artist_location": "", "artist_name": "Line Renaud", "song_id": "SOUPIRU12A6D4FA1E1", "title": "Der Kleine Dompfaff", "duration": 152.92036, "year": 0}
 
-<b>Files:</b>
+### <b>Log Dataset</b>
 
-<b>Project_1B_Project_Template.ipynb:</b> This was template file provided to fill in the details and write the python script
+The second dataset consists of log files in JSON format. The log files in the dataset with are partitioned by year and month.
+For example:
 
-<b>Project2.ipynb:</b> This is the final file provided in which all the queries have been written with importing the files, generating a new csv file and loading all csv files into one. All verifying the results whether all tables had been loaded accordingly as per requirement
+log_data/2018/11/2018-11-12-events.json
+log_data/2018/11/2018-11-13-events.json
+
+And below is an example of what a single log file, 2018-11-13-events.json, looks like.
+
+{"artist":"Pavement", "auth":"Logged In", "firstName":"Sylvie", "gender", "F", "itemInSession":0, "lastName":"Cruz", "length":99.16036, "level":"free", "location":"Klamath Falls, OR", "method":"PUT", "page":"NextSong", "registration":"1.541078e+12", "sessionId":345, "song":"Mercy:The Laundromat", "status":200, "ts":1541990258796, "userAgent":"Mozilla/5.0(Macintosh; Intel Mac OS X 10_9_4...)", "userId":10}
+
+### <b>Tables</b>
+
+<b>Fact Table</b>
+
+<b>songplays</b> - records in event data associated with song plays i.e. records with page NextSong
+songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent
+
+<b>Dimension Tables</b>
+
+<b>users</b> - users in the app
+user_id, first_name, last_name, gender, level
+
+<b>songs</b> - songs in music database
+song_id, title, artist_id, year, duration
+
+<b>artists</b> - artists in music database
+artist_id, name, location, latitude, longitude
+
+<b>time</b> - timestamps of records in songplays broken down into specific units
+start_time, hour, day, week, month, year, weekday
+
+### <b>Project Template</b>
+
+Project Template include four files:
+
+<b>1. create_table.py</b> is where you'll create your fact and dimension tables for the star schema in Redshift.
+
+<b>2. etl.py</b> is where you'll load data from S3 into staging tables on Redshift and then process that data into your analytics tables on Redshift.
+
+<b>3. sql_queries.py</b> is where you'll define you SQL statements, which will be imported into the two other files above.
+
+<b>4. README.md</b> is where you'll provide discussion on your process and decisions for this ETL pipeline.
+
+### <b>ETL Pipeline</b>
+
+1. Write CREATE statements in sql_queries.py
+2. Complete the logic in create_tables.py to connect to the database and create these tables
+3. Write SQL DROP statements to drop tables in the beginning of create_tables.py if the tables already exist. This way, you can run create_tables.py whenever you want to reset your database and test your ETL pipeline.
+4. Launch a redshift cluster and create an IAM role that has read access to S3.
+5. Add redshift database and IAM role info to dwh.cfg.
+6. Test by running create_tables.py and checking the table schemas in your redshift database.
+7. Implement the logic in etl.py to load data from S3 to staging tables on Redshift.
+8. Implement the logic in etl.py to load data from staging tables to analytics tables on Redshift.
+9. Test by running etl.py after running create_tables.py and running the analytic queries on your Redshift database to compare your results with the expected results.
+10. Delete your redshift cluster when finished.
+
+
+### <b>ETL Architecture</b>
+<img src="redshift_project.png" width="800" height="600" >

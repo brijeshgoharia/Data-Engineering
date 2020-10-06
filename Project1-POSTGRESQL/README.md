@@ -124,3 +124,7 @@ We have a small list of files, easy to maintain and understand:
  - `etl.py` - It's the file responsible for the main ETL process
  - `etl.ipynb` - The python notebook that was written to develop the logic behind the `etl.py` process
  - `test.ipynb` - And finally this notebook was used to certify if our ETL process was being successful (or not).
+ 
+ ### <b>ETL Architecture</b>
+
+<img src="postgres_project.png" width="750" height="600" >
